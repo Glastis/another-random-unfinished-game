@@ -1,51 +1,56 @@
 require 'libs.perlin'
 local file = require 'libs.lua-must-have-functions.file'
 local utilities = require 'libs.lua-must-have-functions.utilities'
+local constants = require 'constants'
+local map = require 'map'
 
-local wd = 0
+local tiles = {}
+
+local function load_tiles()
+    tiles['deep water'] = love.graphics.newImage('assets/sprites/terrain/deep_water.png')
+    tiles['water'] = love.graphics.newImage('assets/sprites/terrain/water.png')
+    tiles['shallow water'] = love.graphics.newImage('assets/sprites/terrain/shallow_water.png')
+    tiles['shore'] = love.graphics.newImage('assets/sprites/terrain/sand.png')
+    tiles['plain'] = love.graphics.newImage('assets/sprites/terrain/grass.png')
+    tiles['forest'] = love.graphics.newImage('assets/sprites/terrain/forest.png')
+    tiles['mountain'] = love.graphics.newImage('assets/sprites/terrain/mountain.png')
+end
 
 function love.load()
     file.write('debug.txt', '', 'w')
     perlin:load()
-    love.window.setMode(800, 800)
+    load_tiles()
+    map.generate()
+    love.window.setMode(constants.window_size_x, constants.window_size_y)
 end
 
 function love.update(dt)
 
 end
 
-function love.draw()
-    local color
-    for i=1,500 do
-        for j=1,500 do
-            local x = perlin:noise(i/10, j/10, 0.3)
-            if x < - 0.5 then
-                color = { 2, 26, 215 }
-            elseif x < 0 then
-                color = { 2, 86, 215 }
-            elseif x < 0.2 then
-                color = { 200, 215, 2 }
-            elseif x < 0.5 then
-                color = { 30, 150, 1 }
-            else
-                color = { 112, 112, 112 }
-            end
-            color = { color[1] / 255, color[2] / 255, color[3] / 255 }
-            --if wd < 50 then
-            --    local write = {}
-            --    write['wd'] = wd
-            --    write['x'] = x
-            --    write['color'] = color
-            --    write['unpacked'] = { unpack(color)}
-            --    write['i'] = i
-            --    write['j'] = j
-            --    file.write('debug.txt', utilities.var_dump(write) .. '\n', 'a')
-            --    wd = wd + 1
-            --end
-            love.graphics.setColor(unpack(color))
-            love.graphics.rectangle("fill", 5*(i-1), 5*(j-1), 5, 5)
+function draw_terrain()
+    local x
+    local y
+
+    x = 1
+    y = 1
+    while map.data[y] do
+        love.graphics.draw(
+                tiles[map.data[y][x].type],
+                (x - 1) * constants.tile_size_x * constants.tile_scale_x,
+                (y - 1) * constants.tile_size_y * constants.tile_scale_y,
+                0,
+                constants.tile_scale_x,
+                constants.tile_scale_y
+        )
+        x = x + 1
+        if not map.data[y][x] then
+            x = 1
+            y = y + 1
         end
-        --error()
     end
-    --error(tmp)
+end
+
+function love.draw()
+    draw_terrain()
 end
