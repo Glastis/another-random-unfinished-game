@@ -1,0 +1,3 @@
+[submodule "libs/lua-must-have-functions"]
+	path = libs/lua-must-have-functions
+	url = https://github.com/Glastis/lua-must-have-functions.git
