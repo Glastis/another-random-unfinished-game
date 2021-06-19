@@ -10,6 +10,8 @@ constants.window_size_y = 900
 
 constants.map_size_x = 200
 constants.map_size_y = 100
+constants.map_default_seed = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+--constants.map_default_seed = os.time()
 
 constants.tile_size_x = 64
 constants.tile_size_y = 64

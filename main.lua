@@ -18,7 +18,7 @@ end
 
 function love.load()
     file.write('debug.txt', '', 'w')
-    perlin:load()
+    perlin:load(constants.map_default_seed)
     load_tiles()
     map.generate()
     love.window.setMode(constants.window_size_x, constants.window_size_y)

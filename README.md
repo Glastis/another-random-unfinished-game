@@ -16,3 +16,6 @@ This is a lua Love project (sorry, not C or C++, this game will not have correct
 - Still no gameplay
 
 ![screenshot](https://cdn.discordapp.com/attachments/367698652505833484/855593889343733800/unknown.png)
+
+## Update 0.2.0
+- Random generation, defined by a seed (random if seed isn't defined)
